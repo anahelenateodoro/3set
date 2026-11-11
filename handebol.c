@@ -110,7 +110,7 @@ int jogar_handebol(void) {
                     direcao = -1;
                     if (tecla == ALLEGRO_KEY_D) direcao = 1;
 
-                    if (!noChao && !jaMexeuNoAr) {
+                    if (noChao == false && jaMexeuNoAr == false) {
                         ricoX = ricoX + 60 * direcao;
                         jaMexeuNoAr = true;
                     }
@@ -136,7 +136,7 @@ int jogar_handebol(void) {
                     bolaX = ricoX + 105;
                     if (direcao == -1) bolaX = ricoX - 5;
                     bolaY = ricoY + 100;
-                    if (!noChao) bolaY = ricoY + 20;
+                    if (noChao == false) bolaY = ricoY + 20;
 
                     bolaVelX = 18 * direcao;
                     bolaVelY = -1 - forca * 0.12;   // mais forca = sobe mais
@@ -183,7 +183,7 @@ int jogar_handebol(void) {
             if (goleiroX < 900 || goleiroX > 975) goleiroVelX = -goleiroVelX;
 
             // bola voando (mesma fisica do pulo, gravidade menor)
-            if (!comBola && resultado == NULL) {
+            if (comBola == false && resultado == NULL) {
                 bolaX = bolaX + bolaVelX;
                 bolaY = bolaY + bolaVelY;
                 bolaVelY = bolaVelY + 0.4;
@@ -195,7 +195,7 @@ int jogar_handebol(void) {
                 }
 
                 // bola chegando: a goleira sorteia se pula (50% de chance)
-                if (!goleiroDecidiu && bolaX > goleiroX - 280) {
+                if (goleiroDecidiu == false && bolaX > goleiroX - 280) {
                     goleiroDecidiu = true;
                     if (rand() % 2 == 1) goleiroVelY = -15;
                 }
@@ -236,7 +236,7 @@ int jogar_handebol(void) {
         }
 
         // ---------- 3) DESENHAR ----------
-        if (!rodando || !redesenhar || !al_is_event_queue_empty(fila)) continue;
+        if (rodando == false || redesenhar == false || al_is_event_queue_empty(fila) == false) continue;
         redesenhar = false;
 
         if (estado == REGRAS) {
@@ -287,7 +287,7 @@ int jogar_handebol(void) {
 
             // Rico
             ALLEGRO_BITMAP* imagem = ricoParado;
-            if (!noChao) imagem = ricoPulando;
+            if (noChao == false) imagem = ricoPulando;
             else if (tempoAndando > 0) imagem = ricoAndando;
             int espelhar = 0;
             if (direcao == -1) espelhar = ALLEGRO_FLIP_HORIZONTAL;
@@ -297,7 +297,7 @@ int jogar_handebol(void) {
             if (comBola) {
                 float maoX = ricoX + 102, maoY = ricoY + 100;
                 if (direcao == -1) maoX = ricoX - 3;
-                if (!noChao) maoY = ricoY + 20;
+                if (noChao == false) maoY = ricoY + 20;
                 float distanciaChao = (CHAO - BOLA_T) - maoY;
                 if (tempoDrible > 10) maoY = maoY + distanciaChao * (20 - tempoDrible) / 10.0;
                 else if (tempoDrible > 0) maoY = maoY + distanciaChao * tempoDrible / 10.0;
